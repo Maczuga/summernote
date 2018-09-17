@@ -6671,9 +6671,9 @@ var HintPopover = /** @class */ (function () {
         }).render().appendTo(this.options.container);
         this.$popover.hide();
         this.$content = this.$popover.find('.popover-content,.note-popover-content');
-        this.$content.on('click', '.note-hint-item', function () {
+        this.$content.on('click', '.note-hint-item', function (e) {
             _this.$content.find('.active').removeClass('active');
-            $$1(_this).addClass('active');
+            $$1(e.currentTarget).addClass('active');
             _this.replace();
         });
     };
@@ -6752,8 +6752,12 @@ var HintPopover = /** @class */ (function () {
             return;
         }
         if (e.keyCode === key.code.ENTER) {
-            e.preventDefault();
-            this.replace();
+            if (this.$content.find('.active').length > 0) {
+                e.preventDefault();
+                this.replace();
+            } else {
+                this.hide();
+            }
         }
         else if (e.keyCode === key.code.UP) {
             e.preventDefault();
